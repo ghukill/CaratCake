@@ -52,18 +52,23 @@ get '/get' do
 end
 
 
-# get crumb
+# update crumb
 get '/update' do
   
   # get params
   key = params['k']
   value = params['v']
-
-  # update crumb
-  value = store.load(key)
+  
+  # update
+  if key_res = store.key?(key)
+        store[key] = value
+        status = 'crumb updated'
+  else
+        status = 'crumb does not exist, consider /write'
+  end
 
   # return status
-  value
+  status
 
 end
 
