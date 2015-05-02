@@ -21,27 +21,63 @@ get '/write' do
   # get params
   key = params['k']
   value = params['v']
-  subdb = params['sdb']
 
   # write crumb
-  store[key] = value
+  
+  if !key_res = store.key?(key)
+  	store[key] = value
+  	status = 'crumb stored'
+  else
+  	status = 'crumb exists, consider /update'
+  end
 
   # return status
-  "crumb stored"
+  status
 
 end
+
 
 # get crumb
 get '/get' do
   
   # get params
   key = params['k']
-  subdb = params['sdb']
 
   # write crumb
-  value = store[key]
+  value = store.load(key)
 
   # return status
   value
+
+end
+
+
+# get crumb
+get '/update' do
+  
+  # get params
+  key = params['k']
+  value = params['v']
+
+  # update crumb
+  value = store.load(key)
+
+  # return status
+  value
+
+end
+
+
+# delete crumb
+get '/delete' do
+  
+  # get params
+  key = params['k']
+
+  # write crumb
+  store.delete(key)
+
+  # return status
+  "crumb deleted"
 
 end
