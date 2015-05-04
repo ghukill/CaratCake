@@ -1,2 +1,2 @@
 # CaratCake
-Ruby Sinatra wrapper for LevelDB
+ Sinatra wrapper for LMDB
