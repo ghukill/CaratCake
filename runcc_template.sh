@@ -1,8 +1,8 @@
 # Load RVM into a shell session *as a function*
-if [[ -s "/home/commander/.rvm/scripts/rvm" ]] ; then
+if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
 
   # First try to load from a user install
-  source "/home/commander/.rvm/scripts/rvm"
+  source "$HOME/.rvm/scripts/rvm"
 
 elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
 
@@ -16,4 +16,4 @@ else
 fi
 
 # start server
-ruby cc.rb -o 192.168.1.16
+ruby cc.rb -o [IP to Bind to]
