@@ -1,0 +1,82 @@
+<html>
+
+	<head>
+		<!-- Basic Page Needs
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+		<meta charset="utf-8">
+		<title>CaratCake API Testing</title>
+		
+		<!-- Mobile Specific Metas
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- skeleton CSS -->
+		<link rel="stylesheet" href="skeleton/css/skeleton.css">
+		<link rel="stylesheet" href="skeleton/css/normalize.css">
+		<link rel="stylesheet" href="local.css">
+		
+		<!-- jquery -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+		<!-- local js -->
+		<script src="js/api_test.js"></script>
+
+
+	</head>
+
+	<body>
+
+		<div class="container">
+
+			<div class="row">
+				<div class="twelve columns">
+					<a href="/apitest"><h2>CaratCake API Testing</h2></a>
+				</div>				
+			</div>
+
+			<!-- Write Crumb -->
+			<div class="row">
+				<div class="six columns">
+					<h4>API Call</h4>
+					<form onsubmit="fireTest(); return false;">
+					  <div class="row">
+					    
+					    <div class="twelve columns">
+					      <label for="exampleRecipientInput">Action</label>
+					      <select class="u-full-width" name="action" id="action">
+					        <option value="write">Write</option>
+					        <option value="get" onselect="alert('hey');">Get</option>
+					        <option value="update">Update</option>
+					        <option value="delete">Delete</option>
+					      </select>
+					    </div>
+					    
+					    <div class="twelve columns">
+					      <label for="key">Key</label>
+					      <input class="u-full-width" type="text" name="key" id="key">
+					    </div>
+					    
+					    <div id="value_div" class="twelve columns">
+					      <label for="value">Value</label>
+					      <input class="u-full-width" type="text" name="value" id="value">
+					    </div>
+
+					    <div id="mime_div" class="twelve columns">
+					      <label for="mime">MimeType (optional, opens new window)</label>
+					      <input class="u-full-width" type="text" placeholder="e.g. image/jpeg" name="mime" id="mime">
+					    </div>
+					    
+					  </div>
+					  <br>
+					  <input class="button" type="submit" value="Submit"> <img class="h2_img" height=50 src="cc.png"/>
+					</form>
+				</div>				
+				<div class="six columns results_box">
+					<h4>Results</h4>
+					<p id="results_target">null</p>
+				</div>
+			</div>
+
+	</body>
+
+</html

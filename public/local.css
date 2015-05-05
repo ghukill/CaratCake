@@ -1,0 +1,14 @@
+/* local.css */
+
+.results_box {
+	/*background-color: rgb(219, 239, 219);	*/
+	/*border: 1px dashed;*/
+}
+
+.h2_img {
+	margin-bottom:-18px;
+}
+
+#mime_div {
+	display:none;
+}

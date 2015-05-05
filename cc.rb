@@ -4,6 +4,7 @@
 require 'sinatra'
 require 'moneta'
 require 'json'
+require 'erb'
 
 # load config
 require_relative 'config'
@@ -32,23 +33,6 @@ end
 def get_or_post(url,&block)
   get(url,&block)
   post(url,&block)
-end
-
-
-#-------------------- Exp Routes --------------------#
-# get crumb, custom mime
-get_or_post '/get_mime' do
-  
-  # get params
-  mime = params['mime']
-  key = params['key']
-
-  # write crumb
-  value = store.load(key)
-
-  # return status
-  return_custom_mime(mime, value)
-
 end
 
 
@@ -86,8 +70,18 @@ get_or_post '/get' do
   # write crumb
   value = store.load(key)
 
-  # return status
-  return_json({:value => value})
+  if params.has_key?('mime')
+    puts "going the mime route"
+    mime = params['mime']
+    # return with mime
+    return_custom_mime(mime, value)
+
+  else
+    puts "going the normy route"
+    # return, no mime
+    return_json({:value => value})
+
+  end
 
 end
 
@@ -127,6 +121,21 @@ get_or_post '/delete' do
 
 end
 
+
+#-------------------- GUI Routes --------------------#
+
+# test forms
+get_or_post '/apitest' do
+  
+  erb :api_test
+
+end
+
+
+
+
+
+#-------------------- Catch-All --------------------#
 
 # catch-all route
 get_or_post '/*' do
