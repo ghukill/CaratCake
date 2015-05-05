@@ -5,6 +5,8 @@ require 'sinatra'
 require 'moneta'
 require 'json'
 require 'erb'
+require 'open-uri'
+require 'digest'
 
 # load config
 require_relative 'config'
@@ -35,6 +37,29 @@ def get_or_post(url,&block)
   post(url,&block)
 end
 
+# use URL to retrieve and store value
+def storeValueByURL(key, value, store)
+  
+  # retrieve URL, save to temp file
+  md5 = Digest::MD5.new
+  md5.update value
+  temp_filename = md5.hexdigest
+
+  File.open("/tmp/#{temp_filename}", "wb") do |saved_file|
+    # the following "open" is provided by open-uri
+    open(value, "rb") do |read_file|
+      saved_file.write(read_file.read)
+    end
+  end
+
+  # store in LMDB
+  store[key] = File.open("/tmp/#{temp_filename}", 'rb') {|file| file.read }
+
+  # delete temp file
+  File.delete("/tmp/#{temp_filename}")
+
+end
+
 
 
 #-------------------- Core Routes --------------------#
@@ -45,13 +70,24 @@ get_or_post '/write' do
   # get params
   key = params['key']
   value = params['value']
+  value_url = params['value_url']
 
   # write crumb
   if !key_res = store.key?(key)
-  	store[key] = value
+  	
+    # if value_url == true, download URL and set as value
+    if value_url == "true"
+      puts "Firing by URL..."
+      storeValueByURL(key, value, store)
+    else
+      store[key] = value
+    end
   	msg = 'crumb stored'
+  
   else
-  	msg = 'crumb exists, consider /update'
+  	
+    msg = 'crumb exists, consider /update'
+  
   end
 
   # return
@@ -92,11 +128,20 @@ get_or_post '/update' do
   # get params
   key = params['key']
   value = params['value']
+  value_url = params['value_url']
 
   # update crumb
   if key_res = store.key?(key)
-    store[key] = value
+    
+    # if value_url == true, download URL and set as value
+    if value_url == "true"
+      puts "Firing by URL..."
+      storeValueByURL(key, value, store)
+    else
+      store[key] = value
+    end
     msg = 'crumb updated'
+
   else
     msg = 'crumb does not exist, consider /write'
   end
