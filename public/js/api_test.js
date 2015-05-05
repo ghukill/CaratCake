@@ -5,6 +5,8 @@ function fireTest(){
 
 	// user feedback
 	$("#results_target").html("<span style='color:orange;'>Feverishly working...</span>");	
+	$("a.request_url").attr('href',"#");
+  	$("span.request_url").html("null");
 
 	// craft dataObj
 	var action = $("#action").val();
